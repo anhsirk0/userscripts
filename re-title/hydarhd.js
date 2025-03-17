@@ -12,8 +12,8 @@
 (function () {
   "use strict";
 
-  const getName = () => {
-    let name = document.title.split(" - ")[0].replaceAll(" ", "_");
+  const getName = (docTitle) => {
+    let name = docTitle.split(" - ")[0].replaceAll(" ", "_");
 
     const splitted = location.href.split("?")[0].split("/");
     const season = splitted.at(-3);
@@ -26,12 +26,12 @@
   };
 
   const main = () => {
-    document.title = getName();
+    document.title = getName(document.title);
   };
 
   setTimeout(() => {
     main();
-    let previousUrl = "";
+    let previousUrl = location.href;
     const observer = new MutationObserver(function (mutations) {
       if (location.href !== previousUrl) {
         previousUrl = location.href;
