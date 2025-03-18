@@ -29,15 +29,5 @@
     document.title = getName(document.title);
   };
 
-  setTimeout(() => {
-    main();
-    let previousUrl = location.href;
-    const observer = new MutationObserver(function (mutations) {
-      if (location.href !== previousUrl) {
-        previousUrl = location.href;
-        main();
-      }
-    });
-    observer.observe(document, { subtree: true, childList: true });
-  }, 1000);
+  setTimeout(main, 800);
 })();
