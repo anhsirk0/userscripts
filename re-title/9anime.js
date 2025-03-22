@@ -32,8 +32,15 @@
     return name;
   };
 
+  const chooseVidcloud = () => {
+    const btns = document.querySelectorAll(".server-item[data-type='dub']>a");
+    const btn = Array.from(btns).find((a) => a.innerHTML === "Vidcloud");
+    if (btn) btn.click();
+  };
+
   const main = () => {
     document.title = getName();
+    setTimeout(chooseVidcloud, 2222);
   };
 
   setTimeout(() => {
