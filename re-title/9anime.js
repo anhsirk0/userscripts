@@ -11,6 +11,22 @@
 
 (function () {
   "use strict";
+  // let logsCount = 0;
+  // const log = (text) => {
+  //   let el = document.createElement("a");
+  //   el.innerHTML = text;
+  //   el.style.fontSize = "1rem";
+  //   el.style.padding = "0.8rem";
+  //   el.style.backgroundColor = "#5a2e98";
+  //   el.style.color = "#EFEFEF";
+  //   el.style.zIndex = "9999";
+  //   el.style.position = "fixed";
+  //   el.style.top = `${1 + 4.4 * logsCount}rem`;
+  //   el.style.left = "1rem";
+  //   el.style.borderRadius = "0.5rem";
+  //   document.body.appendChild(el);
+  //   logsCount++;
+  // };
 
   const getName = () => {
     let name = "";
@@ -26,7 +42,7 @@
 
     const episodeEl = document.querySelector(".ep-item.active");
     if (episodeEl) {
-      let ep = Number(episodeEl.dataset.number);
+      const ep = Number(episodeEl.dataset.number);
       if (ep) name = ep + "_" + name;
     }
     return name;
@@ -38,8 +54,41 @@
     if (btn) btn.click();
   };
 
+  const clickNextButton = () => {
+    const episodeEl = document.querySelector(".ep-item.active");
+    if (!episodeEl) return;
+
+    const episodes = Array.from(document.querySelectorAll(".episodes-ul>a"));
+    const ep = Number(episodeEl.dataset.number);
+
+    const nextEpLink = episodes.find((a) => a.dataset.number === `${ep + 1}`);
+    if (nextEpLink) nextEpLink.click();
+  };
+
+  const addNextButton = () => {
+    const prev = document.getElementById("next-episode-btn");
+    if (prev) document.removeElement(prevA);
+
+    const btn = document.createElement("div");
+    btn.id = "next-episode-btn";
+    btn.innerHTML = ">";
+    btn.style.fontSize = "1.6rem";
+    btn.style.padding = "0.6rem";
+    btn.style.backgroundColor = "#5a2e98";
+    btn.style.color = "#EFEFEF";
+    btn.style.zIndex = "9999";
+    btn.style.position = "fixed";
+    btn.style.bottom = "1rem";
+    btn.style.left = "1rem";
+    btn.style.borderRadius = "0.5rem";
+    btn.style.cursor = "pointer";
+    btn.onclick = clickNextButton;
+    document.body.appendChild(btn);
+  };
+
   const main = () => {
     document.title = getName();
+    setTimeout(addNextButton, 1111);
     setTimeout(chooseVidcloud, 2222);
   };
 
