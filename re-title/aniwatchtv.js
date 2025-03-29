@@ -32,8 +32,47 @@
     return name;
   };
 
+  const clickNextButton = () => {
+    const episodeEl = document.querySelector(".ep-item.active");
+    if (!episodeEl) return;
+
+    const episodes = Array.from(document.querySelectorAll("a.ep-item"));
+    const ep = Number(episodeEl.dataset.number);
+
+    const nextEpLink = episodes.find((a) => a.dataset.number === `${ep + 1}`);
+    if (nextEpLink) nextEpLink.click();
+  };
+
+  const addNextButton = () => {
+    const prev = document.getElementById("next-episode-btn");
+    if (prev) document.removeElement(prevA);
+
+    const btn = document.createElement("div");
+    btn.id = "next-episode-btn";
+    btn.innerHTML = ">";
+    btn.style.width = "2rem";
+    btn.style.height = "2rem";
+    btn.style.display = "flex";
+    btn.style.alignItems = "center";
+    btn.style.justifyContent = "center";
+    btn.style.boxShadow =
+      "box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;";
+    btn.style.fontSize = "1.6rem";
+    btn.style.backgroundColor = "#FFDD95";
+    btn.style.color = "#000000";
+    btn.style.zIndex = "9999";
+    btn.style.position = "fixed";
+    btn.style.bottom = "1rem";
+    btn.style.left = "1rem";
+    btn.style.borderRadius = "50%";
+    btn.style.cursor = "pointer";
+    btn.onclick = clickNextButton;
+    document.body.appendChild(btn);
+  };
+
   const main = () => {
     document.title = getName();
+    setTimeout(addNextButton, 1111);
   };
 
   setTimeout(() => {
