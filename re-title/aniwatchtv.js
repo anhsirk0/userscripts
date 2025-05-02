@@ -12,6 +12,37 @@
 (function () {
   "use strict";
 
+  const addStyles = () => {
+    const style = document.createElement("style");
+    style.textContent = `#next-episode-button {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  font-size: 1.6rem;
+  padding: 0.6rem;
+  background-color: #5a2e98;
+  color: #eeeeee;
+  z-index: 99999;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  border: none;
+  border-radius: 50%;
+  transition: all 300ms ease-in;
+}
+
+#next-episode-button:active {
+  transform: scale(1.2);
+}`;
+    document.head.append(style);
+  };
+
   const getName = () => {
     let name = "";
     const nameEl = document.querySelector("h2.film-name>a.dynamic-name");
@@ -27,7 +58,7 @@
     const episodeEl = document.querySelector(".ep-item.active");
     if (episodeEl) {
       let ep = Number(episodeEl.dataset.number);
-      if (ep) name = ep + "_" + name;
+      if (ep) name = `${ep}__${name}`;
     }
     return name;
   };
@@ -48,24 +79,8 @@
     if (prev) document.removeElement(prevA);
 
     const btn = document.createElement("div");
-    btn.id = "next-episode-btn";
+    btn.id = "next-episode-button";
     btn.innerHTML = ">";
-    btn.style.width = "2rem";
-    btn.style.height = "2rem";
-    btn.style.display = "flex";
-    btn.style.alignItems = "center";
-    btn.style.justifyContent = "center";
-    btn.style.boxShadow =
-      "box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;";
-    btn.style.fontSize = "1.6rem";
-    btn.style.backgroundColor = "#FFDD95";
-    btn.style.color = "#000000";
-    btn.style.zIndex = "9999";
-    btn.style.position = "fixed";
-    btn.style.bottom = "1rem";
-    btn.style.left = "1rem";
-    btn.style.borderRadius = "50%";
-    btn.style.cursor = "pointer";
     btn.onclick = clickNextButton;
     document.body.appendChild(btn);
   };
