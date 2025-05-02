@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Retitle hydrahd
 // @namespace    http://tampermonkey.net/
-// @version      2025-02-05
+// @version      2025-03-05
 // @description  Fix document title
 // @author       You
 // @match        https://hydrahd.sh/*
@@ -18,7 +18,7 @@
       let match = el.innerText.match(/^(.*) - Season (\d+) Episode (\d+)/);
       if (!match) return el.innerText.replaceAll(" ", "_");
 
-      let [, neme, episode, season] = match;
+      let [, name, episode, season] = match;
       return `${episode}__${name}__S${season}`;
     }
 
