@@ -28,7 +28,7 @@
     if (episodeEl) {
       const match = /Eps ([0-9]+).*/.exec(episodeEl.title);
       if (match) {
-        name = Number(match[1]) + "_" + name;
+        name = Number(match[1]) + "__" + name;
       }
     }
 
@@ -36,7 +36,7 @@
     if (seasonEl) {
       const match = /Season ([0-9]+).*/.exec(seasonEl.innerHTML);
       if (match) {
-        name = name + "_S" + Number(match[1]);
+        name = name + "__S" + Number(match[1]);
       }
     }
     return name;
