@@ -2,9 +2,9 @@
 // @name         Reddit extra buttons
 // @namespace    http://tampermonkey.net/
 // @version      2025-01-05
-// @description  Add extra buttons
+// @description  Add extra buttons for sorting subreddit by top posts
 // @author       You
-// @match        https://www.reddit.com/r/*
+// @match        https://www.reddit.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=netlify.app
 // @grant        none
 // ==/UserScript==
@@ -39,8 +39,11 @@
     `https://www.reddit.com/r/${sub}/top/?t=${time}`;
 
   const main = () => {
-    const id = "reddit-extra-buttons";
     console.log("Main::enter");
+    if (!location.href.includes("reddit.com/r/"))
+      return console.log("Main::exit(not on subreddit page)");
+
+    const id = "reddit-extra-buttons";
     const slot = document.querySelector("*[bundlename=shreddit_sort_dropdown]");
     if (!slot || !slot.children) return console.log("Main::exit(no slot)");
 
