@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      2025-03-05
 // @description  Fix document title
-// @author       You
+// @author       Anhsirk0
 // @match        https://hydrahd.sh/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=netlify.app
 // @grant        none

@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      2025-01-05
 // @description  Remove ads (yandex mail)
-// @author       You
+// @author       Anhsirk0
 // @match        https://mail.yandex.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=netlify.app
 // @grant        none
