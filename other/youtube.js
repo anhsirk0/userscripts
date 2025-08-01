@@ -72,6 +72,7 @@
   };
 
   const addCleanUrlsButton = () => {
+    console.log("addCleanUrlsButton::enter");
     const prev = document.getElementById("clean-urls-button");
     if (prev) document.removeElement(prevA);
 
@@ -80,6 +81,7 @@
     btn.innerHTML = "❄️";
     btn.onclick = updateLinks;
     document.body.appendChild(btn);
+    console.log("addCleanUrlsButton::exit");
   };
 
   const main = () => {
@@ -91,6 +93,7 @@
   };
 
   setTimeout(() => {
+    addStyles();
     main();
     let previousUrl = "";
     const observer = new MutationObserver(function (mutations) {
