@@ -28,7 +28,7 @@
       let match = el.innerText.match(/^(.*) - Season (\d+) Episode (\d+)/);
       if (!match) return el.innerText.replaceAll(" ", "_");
 
-      let [, name, episode, season] = match;
+      let [, name, season, episode] = match;
       return `${episode}__${name}__S${season}`;
     }
 
