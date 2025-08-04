@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Retitle aniwatchtv
 // @namespace    http://tampermonkey.net/
-// @version      2025-01-05
+// @version      2025-04-05
 // @description  Fix document title
 // @author       Anhsirk0
 // @match        https://aniwatchtv.to/*
@@ -26,8 +26,8 @@
     rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
   font-size: 1.6rem;
   padding: 0.6rem;
-  background-color: #5a2e98;
-  color: #eeeeee;
+  background-color: #FFDD95;
+  color: #111111;
   z-index: 99999;
   position: fixed;
   bottom: 1rem;
@@ -78,7 +78,7 @@
     const prev = document.getElementById("next-episode-button");
     if (prev) document.removeElement(prev);
 
-    const btn = document.createElement("div");
+    const btn = document.createElement("button");
     btn.id = "next-episode-button";
     btn.innerHTML = ">";
     btn.onclick = clickNextButton;
@@ -87,9 +87,10 @@
 
   const main = () => {
     document.title = getName();
-    setTimeout(addNextButton, 1111);
+    setTimeout(addNextButton, 2111);
   };
 
+  addStyles();
   setTimeout(() => {
     main();
     let previousUrl = "";

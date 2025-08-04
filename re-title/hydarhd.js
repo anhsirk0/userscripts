@@ -13,6 +13,7 @@
   "use strict";
 
   const getName = (docTitle) => {
+    console.log("GetName::enter");
     const el = document.querySelector(".ploting > h1");
     if (el) {
       if (location.href.includes("/movie/")) {
@@ -20,8 +21,9 @@
 
         const yearEl = document.querySelector("b + span");
         if (yearEl && yearEl.innerText.match(/\d+/)) {
-          name = `${name}__${yearEl.innerText}`;
+          name = `${name}_─_${yearEl.innerText}`;
         }
+        console.log("GetName::exit");
         return name;
       }
 
@@ -29,6 +31,7 @@
       if (!match) return el.innerText.replaceAll(" ", "_");
 
       let [, name, season, episode] = match;
+      console.log("GetName::exit");
       return `${episode}__${name}__S${season}`;
     }
 
@@ -40,11 +43,14 @@
     if (season && episode) {
       name = `${episode}__${name}__S${season}`;
     }
+    console.log("GetName::exit");
     return name;
   };
 
   const main = () => {
+    console.log("Main::enter");
     document.title = getName(document.title);
+    console.log("Main::enter");
   };
 
   setTimeout(main, 1000);

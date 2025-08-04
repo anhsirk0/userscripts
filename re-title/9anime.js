@@ -82,7 +82,7 @@
 
   const addNextButton = () => {
     const prev = document.getElementById("next-episode-button");
-    if (prev) document.removeElement(prevA);
+    if (prev) document.removeElement(prev);
 
     const btn = document.createElement("button");
     btn.id = "next-episode-button";
