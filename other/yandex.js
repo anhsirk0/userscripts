@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         Remove ads (yandex mail)
-// @namespace    http://tampermonkey.net/
 // @version      2025-01-05
 // @description  Remove ads (yandex mail)
 // @author       Anhsirk0

@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         Retitle hydrahd
-// @namespace    http://tampermonkey.net/
 // @version      2025-03-05
 // @description  Fix document title
 // @author       Anhsirk0
@@ -31,6 +30,7 @@
       if (!match) return el.innerText.replaceAll(" ", "_");
 
       let [, name, season, episode] = match;
+      name = name.replaceAll(" ", "_");
       console.log("GetName::exit");
       return `${episode}__${name}__S${season}`;
     }

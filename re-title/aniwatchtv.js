@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         Retitle aniwatchtv
-// @namespace    http://tampermonkey.net/
 // @version      2025-04-05
 // @description  Fix document title
 // @author       Anhsirk0

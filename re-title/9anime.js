@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         Retitle 9animetv
-// @namespace    http://tampermonkey.net/
 // @version      2025-01-05
 // @description  Fix document title
 // @author       Anhsirk0

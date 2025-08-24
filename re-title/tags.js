@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         Extract tag
-// @namespace    http://tampermonkey.net/
 // @version      2025-01-05
 // @description  Extract tags!
 // @author       Anhsirk0

@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         Vidcloud 9animetv
-// @namespace    http://tampermonkey.net/
 // @version      2025-01-05
 // @description  Vidcloud
 // @author       Anhsirk0

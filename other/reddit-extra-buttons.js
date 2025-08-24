@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         Reddit extra buttons
-// @namespace    http://tampermonkey.net/
 // @version      2025-01-05
 // @description  Add extra buttons for sorting subreddit by top posts
 // @author       Anhsirk0

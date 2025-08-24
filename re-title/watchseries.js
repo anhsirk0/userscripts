@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         Retitle watchseries
-// @namespace    http://tampermonkey.net/
 // @version      2025-01-05
 // @description  Fix document title
 // @author       Anhsirk0
