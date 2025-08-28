@@ -10,6 +10,8 @@
 
 (function () {
   "use strict";
+  const toName = (str) => str.replaceAll(" ", "_");
+  const getInnerText = (str) => document.querySelector(str)?.innerText;
 
   const addStyles = () => {
     const style = document.createElement("style");
@@ -42,15 +44,12 @@
     document.head.append(style);
   };
 
-  const toUnderscores = (str) => str.replaceAll(" ", "_");
-
-  const getMovieName = () => {
+  const getMovieName = (docTitle) => {
     console.log("GetMovieName::enter");
-    const el = document.querySelector(".heading-name > a");
-    let name = toUnderscores(el.innerText);
+    let name = getInnerText(".heading-name > a") || docTitle;
     const released = Array.from(document.querySelectorAll(".row-line")).find(
       (el) => el.innerText.startsWith("Released")
-    ).innerText;
+    )?.innerText;
 
     const yearMatch = released.match(/Released: (\d+)-.*/);
     if (yearMatch) {
@@ -58,38 +57,40 @@
       name = `${name}_─_${yearMatch[1]}`;
     }
     console.log("GetMovieName::exit");
-    return name;
+    return toName(name);
   };
 
-  const getSeriesName = () => {
+  const getSeriesName = (docTitle) => {
     console.log("GetSeriesName::enter");
-    const info = document.querySelector(".heading-name > a").innerText;
+    let info = getInnerText(".heading-name > a") || docTitle;
     let match = info.match(/^(.*) - Season (\d+)/);
+    if (!match) return toName(docTitle);
     let [, name, season] = match;
 
     const epInfo = document.querySelector(".eps-item.active strong").innerText;
     if (!epInfo) {
       console.log("GetSeriesName::exit");
-      return toUnderscores(`${name}__S${season}`);
+      return toName(`${name}__S${season}`);
     }
 
     match = epInfo.match(/Eps (\d+) :/);
+    if (!match) return toName(name);
     let [, episode] = match;
     console.log("GetSeriesName::exit");
-    return toUnderscores(`${episode}__${name}__S${season}`);
+    return toName(`${episode}__${name}__S${season}`);
   };
 
   const clickNextButton = () => {
-    const episodeEl = document.querySelector(".eps-item.active");
-    if (!episodeEl) return;
+    const activeEp = document.querySelector(".eps-item.active");
+    if (!activeEp) return;
 
     const episodes = Array.from(
-      document.querySelectorAll(".nav.ps-container>li>a")
+      document.querySelectorAll("div.active>ul.nav.ps-container>li>a")
     );
-    const ep = Number(episodeEl.dataset.id);
-
-    const nextEpLink = episodes.find((a) => a.dataset.id === `${ep + 1}`);
-    if (nextEpLink) nextEpLink.click();
+    const nextIdx = episodes.findIndex(
+      (a) => a.dataset.id === activeEp.dataset.id
+    );
+    episodes.at(nextIdx + 1)?.click();
   };
 
   const addNextButton = () => {
@@ -112,8 +113,8 @@
   const main = () => {
     console.log("Main::enter");
     const name = location.href.includes("/movie/")
-      ? getMovieName()
-      : getSeriesName();
+      ? getMovieName(document.title)
+      : getSeriesName(document.title);
     document.title = name;
     setTimeout(addNextButton, 1111);
     setTimeout(chooseMegacloud, 2222);
@@ -131,5 +132,5 @@
       }
     });
     observer.observe(document, { subtree: true, childList: true });
-  }, 1000);
+  }, 400);
 })();

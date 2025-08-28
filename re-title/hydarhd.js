@@ -11,6 +11,37 @@
 (function () {
   "use strict";
 
+  const addStyles = () => {
+    const style = document.createElement("style");
+    style.textContent = `#next-episode-button {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  font-size: 1.6rem;
+  padding: 0.6rem;
+  background-color: #bc0000;
+  color: #eeeeee;
+  z-index: 99999;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  border: none;
+  border-radius: 50%;
+  transition: all 300ms ease-in;
+}
+
+#next-episode-button:active {
+  transform: scale(1.2);
+}`;
+    document.head.append(style);
+  };
+
   const getName = (docTitle) => {
     console.log("GetName::enter");
     const el = document.querySelector(".ploting > h1");
@@ -47,11 +78,29 @@
     return name;
   };
 
+  const clickNextButton = () => {
+    const btn = document.getElementById("nextEpisodeButton");
+    if (btn) btn.click();
+  };
+
+  const addNextButton = () => {
+    const prev = document.getElementById("next-episode-button");
+    if (prev) document.removeElement(prev);
+
+    const btn = document.createElement("button");
+    btn.id = "next-episode-button";
+    btn.innerHTML = ">";
+    btn.onclick = clickNextButton;
+    document.body.appendChild(btn);
+  };
+
   const main = () => {
     console.log("Main::enter");
     document.title = getName(document.title);
+    addNextButton();
     console.log("Main::enter");
   };
 
+  addStyles();
   setTimeout(main, 1000);
 })();
