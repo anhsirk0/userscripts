@@ -79,10 +79,10 @@
 
   const main = () => {
     document.title = getName();
-    setTimeout(addNextButton, 2111);
   };
 
   addStyles();
+  addNextButton();
   let previousUrl = "";
   const observer = new MutationObserver(function (mutations) {
     if (location.href !== previousUrl) {

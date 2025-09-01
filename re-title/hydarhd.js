@@ -16,20 +16,20 @@
   const addStyles = () => {
     const style = document.createElement("style");
     style.textContent = `#next-episode-button {
-  width: 2rem;
-  height: 2rem;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-  font-size: 1.6rem;
-  padding: 0.6rem;
+  font-size: 24px;
+  padding: 10px;
   background-color: #bc0000;
   color: #eeeeee;
   z-index: 99999;
   position: fixed;
-  bottom: 1rem;
-  left: 1rem;
+  bottom: 16px;
+  left: 16px;
   border: none;
   border-radius: 50%;
   transition: all 300ms ease-in;
@@ -58,8 +58,11 @@
     let [, name, season, epNum] = match;
 
     match = info.match(/^.*\n(.*)/);
-    if (match) return toName(`${epNum}__${match[1]}__${name}__S${season}`);
+    if (!match) return toName(`${epNum}__${name}__S${season}`);
 
+    const epName = match[1];
+    if (epName && !epName.includes("Season") && !epName.includes("Episode"))
+      return toName(`${epNum}__${epName}__${name}__S${season}`);
     return toName(`${epNum}__${name}__S${season}`);
   };
 
