@@ -10,7 +10,6 @@
 
 (function () {
   "use strict";
-
   const addStyles = () => {
     const style = document.createElement("style");
     style.textContent = `#next-episode-button {
@@ -19,10 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow:
-    rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
-    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
-    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
   font-size: 1.6rem;
   padding: 0.6rem;
   background-color: #5a2e98;
@@ -35,7 +31,6 @@
   border-radius: 50%;
   transition: all 300ms ease-in;
 }
-
 #next-episode-button:active {
   transform: scale(1.2);
 }`;
@@ -45,10 +40,8 @@
   const getName = () => {
     let name = "";
     const nameEl = document.querySelector("h2.film-name.dynamic-name");
-    if (nameEl) {
-      name = nameEl.innerHTML.replaceAll(" ", "_");
-      // name = (nameEl.dataset.jname ?? nameEl.innerHTML).replaceAll(" ", "_");
-    }
+    if (nameEl) name = nameEl.innerHTML;
+
     if (!name) {
       const urlName = location.href.split("/").at(-1) ?? "Anime";
       name = urlName.split("-").slice(0, -1).join("_");
@@ -57,9 +50,9 @@
     const episodeEl = document.querySelector(".ep-item.active");
     if (episodeEl) {
       const ep = Number(episodeEl.dataset.number);
-      if (ep) name = `${ep}__${name}`;
+      if (ep) name = `${ep}__${episodeEl.title}__${name}`;
     }
-    return name;
+    return name.replaceAll(" ", "_");
   };
 
   const chooseVidcloud = () => {
@@ -97,15 +90,13 @@
   };
 
   addStyles();
-  setTimeout(() => {
-    main();
-    let previousUrl = "";
-    const observer = new MutationObserver(function (mutations) {
-      if (location.href !== previousUrl) {
-        previousUrl = location.href;
-        main();
-      }
-    });
-    observer.observe(document, { subtree: true, childList: true });
-  }, 1000);
+  let previousUrl = "";
+  const observer = new MutationObserver(function (mutations) {
+    if (location.href !== previousUrl) {
+      previousUrl = location.href;
+      main();
+    }
+  });
+  observer.observe(document, { subtree: true, childList: true });
+  setTimeout(main, 400);
 })();

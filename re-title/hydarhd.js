@@ -10,6 +10,8 @@
 
 (function () {
   "use strict";
+  const toName = (str) => str.replaceAll(" ", "_");
+  const getInnerText = (str) => document.querySelector(str)?.innerText;
 
   const addStyles = () => {
     const style = document.createElement("style");
@@ -19,10 +21,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow:
-    rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
-    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
-    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
   font-size: 1.6rem;
   padding: 0.6rem;
   background-color: #bc0000;
@@ -41,41 +40,27 @@
 }`;
     document.head.append(style);
   };
+  const getMovieName = (docTitle) => {
+    let name = getInnerText(".ploting > h1");
+    if (!name) return toName(docTitle.split(" - ")[0]);
 
-  const getName = (docTitle) => {
-    console.log("GetName::enter");
-    const el = document.querySelector(".ploting > h1");
-    if (el) {
-      if (location.href.includes("/movie/")) {
-        let name = el.innerText.replaceAll(" ", "_");
+    const yearEl = getInnerText("b + span");
+    if (yearEl && yearEl.match(/\d+/)) name = `${name}_─_${yearEl.innerText}`;
+    return toName(name);
+  };
 
-        const yearEl = document.querySelector("b + span");
-        if (yearEl && yearEl.innerText.match(/\d+/)) {
-          name = `${name}_─_${yearEl.innerText}`;
-        }
-        console.log("GetName::exit");
-        return name;
-      }
+  const getSeriesName = (docTitle) => {
+    let info = getInnerText(".ploting > h1");
+    if (!info) return toName(docTitle.split(" - ")[0]);
 
-      let match = el.innerText.match(/^(.*) - Season (\d+) Episode (\d+)/);
-      if (!match) return el.innerText.replaceAll(" ", "_");
+    let match = info.match(/^(.*) - Season (\d+) Episode (\d+)/);
+    if (!match) return toName(info);
+    let [, name, season, epNum] = match;
 
-      let [, name, season, episode] = match;
-      name = name.replaceAll(" ", "_");
-      console.log("GetName::exit");
-      return `${episode}__${name}__S${season}`;
-    }
+    match = info.match(/^.*\n(.*)/);
+    if (match) return toName(`${epNum}__${match[1]}__${name}__S${season}`);
 
-    let name = docTitle.split(" - ")[0].replaceAll(" ", "_");
-    const splitted = location.href.split("?")[0].split("/");
-    const season = splitted.at(-3);
-    const episode = splitted.at(-1);
-
-    if (season && episode) {
-      name = `${episode}__${name}__S${season}`;
-    }
-    console.log("GetName::exit");
-    return name;
+    return toName(`${epNum}__${name}__S${season}`);
   };
 
   const clickNextButton = () => {
@@ -95,12 +80,12 @@
   };
 
   const main = () => {
-    console.log("Main::enter");
-    document.title = getName(document.title);
+    document.title = location.href.includes("/movie/")
+      ? getMovieName(document.title)
+      : getSeriesName(document.title);
     addNextButton();
-    console.log("Main::enter");
   };
 
   addStyles();
-  setTimeout(main, 1000);
+  setTimeout(main, 400);
 })();
