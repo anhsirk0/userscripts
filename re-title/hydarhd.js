@@ -44,8 +44,8 @@
     let name = getInnerText(".ploting > h1");
     if (!name) return toName(docTitle.split(" - ")[0]);
 
-    const yearEl = getInnerText("b + span");
-    if (yearEl && yearEl.match(/\d+/)) name = `${name}_─_${yearEl.innerText}`;
+    const year = getInnerText("b + span");
+    if (year && year.match(/\d+/)) name = `${name}_─_${year}`;
     return toName(name);
   };
 

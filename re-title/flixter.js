@@ -42,7 +42,6 @@
   };
 
   const getMovieName = (docTitle) => {
-    console.log("GetMovieName::enter");
     let name = getInnerText(".heading-name > a") || docTitle;
     const released = Array.from(document.querySelectorAll(".row-line")).find(
       (el) => el.innerText.startsWith("Released")
@@ -50,15 +49,12 @@
 
     const yearMatch = released.match(/Released: (\d+)-.*/);
     if (yearMatch) {
-      console.log("GetMovieName::yearMatch");
       name = `${name}_─_${yearMatch[1]}`;
     }
-    console.log("GetMovieName::exit");
     return toName(name);
   };
 
   const getSeriesName = (docTitle) => {
-    console.log("GetSeriesName::enter");
     let info = getInnerText(".heading-name > a") || docTitle;
     let match = info.match(/^(.*) - Season (\d+)/);
     if (!match) return toName(docTitle);
@@ -66,7 +62,6 @@
 
     const epInfo = document.querySelector(".eps-item.active").title;
     if (!epInfo) {
-      console.log("GetSeriesName::exit");
       return toName(`${seriesName}__S${season}`);
     }
 
@@ -77,7 +72,6 @@
     if (epName) name = `${name}__${epName}`;
     name = `${name}__${seriesName}__S${season}`;
 
-    console.log("GetSeriesName::exit");
     return toName(name);
   };
 
@@ -112,14 +106,11 @@
   };
 
   const main = () => {
-    console.log("Main::enter");
-    const name = location.href.includes("/movie/")
+    document.title = location.href.includes("/movie/")
       ? getMovieName(document.title)
       : getSeriesName(document.title);
-    document.title = name;
     setTimeout(addNextButton, 1111);
     setTimeout(chooseMegacloud, 2222);
-    console.log("Main::enter");
   };
 
   addStyles();
