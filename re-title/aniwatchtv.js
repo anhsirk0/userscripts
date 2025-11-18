@@ -50,9 +50,14 @@
     const episodeEl = document.querySelector(".ep-item.active");
     if (episodeEl) {
       let ep = Number(episodeEl.dataset.number);
-      if (ep) name = `${ep}__${episodeEl.title}__${name}`;
+      if (ep) {
+        let title = episodeEl.title;
+        name = title.startsWith("Episode")
+          ? `${ep}__${name}`
+          : `${ep}__${title}__${name}`;
+      }
     }
-    return name.replaceAll(" ", "_");
+    return name.replaceAll(" ", "_").replaceAll("?", "").replaceAll("/", "|");
   };
 
   const clickNextButton = () => {

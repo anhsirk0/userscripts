@@ -10,7 +10,7 @@
 
 (function () {
   "use strict";
-  const toName = (str) => str.replaceAll(" ", "_");
+  const toName = (str) => str.replaceAll(" ", "_").replaceAll("?", "");;
   const getInnerText = (str) => document.querySelector(str)?.innerText;
 
   const addStyles = () => {
@@ -35,9 +35,7 @@
   transition: all 300ms ease-in;
 }
 
-#next-episode-button:active {
-  transform: scale(1.2);
-}`;
+#next-episode-button:active { transform: scale(1.2); }`;
     document.head.append(style);
   };
   const getMovieName = (docTitle) => {

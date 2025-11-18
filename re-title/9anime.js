@@ -85,8 +85,8 @@
 
   const main = () => {
     document.title = getName();
-    setTimeout(addNextButton, 1111);
-    setTimeout(chooseVidcloud, 2222);
+    setTimeout(addNextButton, 11);
+    setTimeout(chooseVidcloud, 1111);
   };
 
   addStyles();

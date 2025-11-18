@@ -10,7 +10,7 @@
 
 (function () {
   "use strict";
-  const toName = (str) => str.replaceAll(" ", "_");
+  const toName = (str) => str.replaceAll(" ", "_").replaceAll("?", "");
   const getInnerText = (str) => document.querySelector(str)?.innerText;
 
   const addStyles = () => {
@@ -42,7 +42,7 @@
   };
 
   const getMovieName = (docTitle) => {
-    let name = getInnerText(".heading-name > a") || docTitle;
+    let name = getInnerText(".heading-name") || docTitle;
     const released = Array.from(document.querySelectorAll(".row-line")).find(
       (el) => el.innerText.startsWith("Released")
     )?.innerText;
@@ -55,7 +55,7 @@
   };
 
   const getSeriesName = (docTitle) => {
-    let info = getInnerText(".heading-name > a") || docTitle;
+    let info = getInnerText(".heading-name") || docTitle;
     let match = info.match(/^(.*) - Season (\d+)/);
     if (!match) return toName(docTitle);
     let [, seriesName, season] = match;
@@ -106,9 +106,12 @@
   };
 
   const main = () => {
-    document.title = location.href.includes("/movie/")
+    document.title = location.href.includes("movie/")
       ? getMovieName(document.title)
       : getSeriesName(document.title);
+    let el = document.querySelector(".heading-name");
+    el.innerHTML = el.innerText;
+
     setTimeout(addNextButton, 1111);
     setTimeout(chooseMegacloud, 2222);
   };
