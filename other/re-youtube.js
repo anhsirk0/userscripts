@@ -41,9 +41,9 @@
       "AGC ANDY",
     ];
 
-    let remove =
-      notInterested.includes(channel) ||
-      notInterested.some((i) => title.includes(i));
+    let remove = notInterested.some(
+      (i) => channel.includes(i) || title.includes(i)
+    );
 
     const views = Array.from(el.querySelectorAll(INFO_SEL))
       .filter((e) => e.innerText.includes("views"))

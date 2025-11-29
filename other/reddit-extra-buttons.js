@@ -4,7 +4,7 @@
 // @description  Add extra buttons for sorting subreddit by top posts
 // @author       Anhsirk0
 // @match        https://www.reddit.com/*
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=netlify.app
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=reddit.com
 // @grant        none
 // ==/UserScript==
 
