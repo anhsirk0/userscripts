@@ -15,6 +15,7 @@
   const CHANNEL_SEL = ".yt-content-metadata-view-model__metadata-row";
   const SHORTS_SEL = "ytd-rich-shelf-renderer";
   const INFO_SEL = ".yt-core-attributed-string";
+  const BADGE_SEL = "yt-badge-shape__text";
   const KEY = "yt-junk";
 
   let NOT_INTERESTED = [
@@ -23,6 +24,7 @@
     "#tagname",
     /some regex/,
   ];
+  let JUNK_CHANNELS = [];
 
   function addStyles() {
     const style = document.createElement("style");
@@ -83,10 +85,11 @@ display: inline-block;
     const title = el.querySelector(TITLE_SEL)?.innerText ?? "";
     const channel = el.querySelector(CHANNEL_SEL)?.innerText ?? "";
 
-    let remove = NOT_INTERESTED.some((it) => {
-      if (it instanceof RegExp) return it.test(channel) || it.test(title);
-      else return channel.includes(it) || title.includes(it);
-    });
+    let remove =
+      NOT_INTERESTED.some((it) => {
+        if (it instanceof RegExp) return it.test(channel) || it.test(title);
+        else return channel.includes(it) || title.includes(it);
+      }) || JUNK_CHANNELS.includes(channel);
 
     const views = Array.from(el.querySelectorAll(INFO_SEL))
       .filter((e) => e.innerText.includes("views"))
@@ -124,7 +127,7 @@ display: inline-block;
 
   function main() {
     addStyles();
-    getJunkChannelsFromLocalStorage().forEach((it) => NOT_INTERESTED.push(it));
+    getJunkChannelsFromLocalStorage().forEach((it) => JUNK_CHANNELS.push(it));
     // const base = "https://www.youtube.com/watch?";
     const shorts = document.querySelector(SHORTS_SEL);
     if (shorts) {
