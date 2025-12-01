@@ -4,7 +4,7 @@
 // @description  Fix document title
 // @author       Anhsirk0
 // @match        https://flixter.ac/*
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=netlify.app
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=flixter.ac
 // @grant        none
 // ==/UserScript==
 
@@ -60,10 +60,10 @@
     if (!match) return toName(docTitle);
     let [, seriesName, season] = match;
 
-    const epInfo = document.querySelector(".eps-item.active").title;
-    if (!epInfo) {
-      return toName(`${seriesName}__S${season}`);
-    }
+    const el = document.querySelector(".eps-item.active");
+    if (!el) return toName(`${seriesName}__S${season}`);
+    const epInfo = el.title || "";
+    if (!epInfo) return toName(`${seriesName}__S${season}`);
 
     match = epInfo.match(/Eps (\d+): (.*)/);
     if (!match) return toName(name);
