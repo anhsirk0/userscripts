@@ -14,17 +14,21 @@
   const METADATA_SEL = ".yt-lockup-view-model__metadata";
   const CHANNEL_SEL = ".yt-content-metadata-view-model__metadata-row";
   const SHORTS_SEL = "ytd-rich-shelf-renderer";
+  const REELS_SEL = "ytd-reel-shelf-renderer";
+  const TICKET_SEL = "#ticket-shelf";
   const INFO_SEL = ".yt-core-attributed-string";
   const BADGE_SEL = "yt-badge-shape__text";
   const KEY = "yt-junk";
 
   let NOT_INTERESTED = [
     "some keywords",
-    "channel name",
     "#tagname",
     /some regex/,
+    /SOME case insensitive regex/i,
   ];
   let JUNK_CHANNELS = [];
+  // TODO: add whitelist for channels
+  // let WHITELISTED_CHANNELS = [];
 
   function addStyles() {
     const style = document.createElement("style");
@@ -50,6 +54,11 @@ display: inline-block;
     document.head.append(style);
   }
 
+  function remove(el, msg) {
+    console.log(msg);
+    el.remove();
+  }
+
   function debounce(method, delay) {
     clearTimeout(method._tId);
     method._tId = setTimeout(method, delay);
@@ -67,7 +76,7 @@ display: inline-block;
     }
   }
 
-  function addBlacklistButton(el, channel) {
+  function addBlacklistButton(el, channel, title) {
     const container = el.querySelector(METADATA_SEL);
     if (!container) return;
     let button = document.createElement("button");
@@ -76,9 +85,18 @@ display: inline-block;
     button.onclick = function () {
       const junkChannels = getJunkChannelsFromLocalStorage().concat(channel);
       localStorage.setItem(KEY, JSON.stringify(junkChannels));
-      el.remove();
+      remove(el, `[Junk] ${channel}'s video removed: ${title}`);
     };
     container.appendChild(button);
+  }
+
+  function isCountLessThan1k(el, channel, kind) {
+    const views = Array.from(el.querySelectorAll(INFO_SEL))
+      .filter((e) => e.innerText.includes(kind))
+      .at(0)?.innerText;
+    if (!views) return false;
+    const [count] = views.split(" ");
+    return !isNaN(Number(count)) && !channel.includes("protesilaos");
   }
 
   function handleOne(el) {
@@ -91,32 +109,11 @@ display: inline-block;
         else return channel.includes(it) || title.includes(it);
       }) || JUNK_CHANNELS.includes(channel);
 
-    const views = Array.from(el.querySelectorAll(INFO_SEL))
-      .filter((e) => e.innerText.includes("views"))
-      .at(0)?.innerText;
-    const watching = Array.from(el.querySelectorAll(INFO_SEL))
-      .filter((e) => e.innerText.includes("watching"))
-      .at(0)?.innerText;
+    const isLessThan1k = (kind) => isCountLessThan1k(el, channel, kind);
+    if (isLessThan1k("views") || isLessThan1k("watching")) remove = true;
 
-    if (views) {
-      const [count] = views.split(" ");
-      if (!isNaN(Number(count)) && !channel.includes("prot")) {
-        remove = true;
-      }
-    }
-    if (watching) {
-      const [count] = watching.split(" ");
-      if (!isNaN(Number(count)) && !channel.includes("prot")) {
-        remove = true;
-      }
-    }
-
-    if (remove) {
-      console.log(`${channel}'s video removed: ${title}`);
-      el.remove();
-    } else {
-      addBlacklistButton(el, channel);
-    }
+    if (remove) remove(el, `${channel}'s video removed: ${title}`);
+    else addBlacklistButton(el, channel);
   }
 
   function handleAll(selector) {
@@ -130,14 +127,18 @@ display: inline-block;
     getJunkChannelsFromLocalStorage().forEach((it) => JUNK_CHANNELS.push(it));
     // const base = "https://www.youtube.com/watch?";
     const shorts = document.querySelector(SHORTS_SEL);
-    if (shorts) {
-      console.log("shorts video removed");
-      shorts.remove();
-    }
+    if (shorts) remove(shorts, "shorts video removed");
+
+    const reels = document.querySelector(REELS_SEL);
+    if (reels) remove(reels, "reels video removed");
+
+    const ticket = document.querySelector(TICKET_SEL);
+    if (ticket) remove(ticket, "ticket section removed");
+
     if (location.href.includes("watch")) handleAll("yt-lockup-view-model");
     else handleAll("ytd-rich-item-renderer");
   }
 
-  setTimeout(main, 200);
+  setTimeout(main, 1200);
   window.addEventListener("scroll", () => debounce(main, 400));
 })();
