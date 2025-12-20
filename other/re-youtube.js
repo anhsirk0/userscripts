@@ -103,16 +103,16 @@ display: inline-block;
     const title = el.querySelector(TITLE_SEL)?.innerText ?? "";
     const channel = el.querySelector(CHANNEL_SEL)?.innerText ?? "";
 
-    let remove =
+    let junk =
       NOT_INTERESTED.some((it) => {
         if (it instanceof RegExp) return it.test(channel) || it.test(title);
         else return channel.includes(it) || title.includes(it);
       }) || JUNK_CHANNELS.includes(channel);
 
     const isLessThan1k = (kind) => isCountLessThan1k(el, channel, kind);
-    if (isLessThan1k("views") || isLessThan1k("watching")) remove = true;
+    if (isLessThan1k("views") || isLessThan1k("watching")) junk = true;
 
-    if (remove) remove(el, `${channel}'s video removed: ${title}`);
+    if (junk) remove(el, `${channel}'s video removed: ${title}`);
     else addBlacklistButton(el, channel);
   }
 

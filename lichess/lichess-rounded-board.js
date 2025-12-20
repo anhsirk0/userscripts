@@ -12,13 +12,6 @@
   "use strict";
 
   const style = document.createElement("style");
-  style.textContent = `
-cg-board { border-radius: 20px !important }
-html { scrollbar-width: none !important }
-#main-wrap { margin-top: 24px !important }
-header#top { transform: translateY(-48px) !important }
-header#top:hover { transform: translateY(0) !important }
-body { ---zoom: 105 !important }
-`;
-  document.head.append(style);
+  style.textContent = `cg-board { border-radius: 20px !important }`;
+  document.head.appendChild(style);
 })();
