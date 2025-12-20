@@ -3,14 +3,14 @@
 // @version      2025-03-05
 // @description  Fix document title
 // @author       Anhsirk0
-// @match        https://hydrahd.sh/*
+// @match        https://hydrahd.ru/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=netlify.app
 // @grant        none
 // ==/UserScript==
 
 (function () {
   "use strict";
-  const toName = (str) => str.replaceAll(" ", "_").replaceAll("?", "");;
+  const toName = (str) => str.replaceAll(" ", "_").replaceAll("?", "");
   const getInnerText = (str) => document.querySelector(str)?.innerText;
 
   const addStyles = () => {
