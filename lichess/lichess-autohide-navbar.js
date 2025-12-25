@@ -12,13 +12,25 @@
   "use strict";
 
   const style = document.createElement("style");
-  style.textContent = `#main-wrap.autohide { margin-top: 24px !important }
-header#top.autohide { transform: translateY(-48px) !important }
-header#top.autohide:hover { transform: translateY(0) !important }
+  style.textContent = `
+#main-wrap.autohide {
+  margin-top: 24px !important;
+}
+header#top.autohide {
+  transform: translateY(-49px) !important;
+}
+header#top.autohide:hover {
+  transform: translateY(0) !important;
+  background-image: linear-gradient(
+    to bottom,
+    var(--c-body-gradient),
+    var(--m-body-gradient_bg-page--mix-50) 60px
+  );
+}
 header#top.autohide .signup {
- box-shadow: none !important;
- border: none !important;
- }
+  box-shadow: none !important;
+  border: none !important;
+}
 `;
   document.head.appendChild(style);
 
@@ -26,7 +38,7 @@ header#top.autohide .signup {
     const html = document.querySelector("html");
     const header = document.querySelector("header#top");
     const wrap = document.querySelector("#main-wrap");
-    if (html.scrollTop < 20) {
+    if (html.scrollTop < 40) {
       header.classList.add("autohide");
       wrap.classList.add("autohide");
     } else {

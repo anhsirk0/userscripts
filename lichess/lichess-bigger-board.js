@@ -14,5 +14,5 @@
   const style = document.createElement("style");
   style.textContent = `html { scrollbar-width: none !important }
 body { ---zoom: 105 !important }`;
-  document.head.append(style);
+  document.head.appendChild(style);
 })();
