@@ -1,0 +1,108 @@
+* Some userscripts to tweak the lichess web UI.
+ - Autohide the navbar
+ - Bigger board size (in tandem with autohide navbar)
+ - Rounded corners for the board
+
+** Autohide the navbar
+[[https://codeberg.org/anhsirk0/userscripts/src/branch/main/lichess/lichess-autohide-navbar.js][Link to source code]]
+*** Source code
+#+BEGIN_SRC js
+// ==UserScript==
+// @name         Lichess Autohide top navbar
+// @version      2025-03-05
+// @description  Lichess Autohide top navbar to get more space for the board
+// @author       Anhsirk0
+// @match        https://lichess.org/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=lichess.org
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  "use strict";
+
+  const style = document.createElement("style");
+  style.textContent = `
+#main-wrap.autohide {
+  margin-top: 24px !important;
+}
+header#top.autohide {
+  transform: translateY(-49px) !important;
+}
+header#top.autohide:hover {
+  transform: translateY(0) !important;
+  background-image: linear-gradient(
+    to bottom,
+    var(--c-body-gradient),
+    var(--m-body-gradient_bg-page--mix-50) 60px
+  );
+}
+header#top.autohide .signup {
+  box-shadow: none !important;
+  border: none !important;
+}
+`;
+  document.head.appendChild(style);
+
+  function onScroll() {
+    const html = document.querySelector("html");
+    const header = document.querySelector("header#top");
+    const wrap = document.querySelector("#main-wrap");
+    if (html.scrollTop < 20) {
+      header.classList.add("autohide");
+      wrap.classList.add("autohide");
+    } else {
+      header.classList.remove("autohide");
+      wrap.classList.remove("autohide");
+    }
+  }
+
+  onScroll();
+  window.addEventListener("scroll", onScroll);
+})();
+#+END_SRC
+
+** Bigger board
+[[https://codeberg.org/anhsirk0/userscripts/src/branch/main/lichess/lichess-bigger-board.js][Link to source code]]
+*** Source code
+#+BEGIN_SRC js
+// ==UserScript==
+// @name         Lichess Bigger Board
+// @version      2025-03-05
+// @description  Lichess Bigger Board (to be used with autohide navbar)
+// @author       Anhsirk0
+// @match        https://lichess.org/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=lichess.org
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  "use strict";
+
+  const style = document.createElement("style");
+  style.textContent = `html { scrollbar-width: none !important }
+body { ---zoom: 105 !important }`;
+  document.head.appendChild(style);
+})();
+#+END_SRC
+** Rounded board
+[[https://codeberg.org/anhsirk0/userscripts/src/branch/main/lichess/lichess-rounded-board.js][Link to source code]]
+*** Source code
+#+BEGIN_SRC js
+// ==UserScript==
+// @name         Lichess Rounded Board
+// @version      2025-03-05
+// @description  Lichess Rounded Board
+// @author       Anhsirk0
+// @match        https://lichess.org/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=lichess.org
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  "use strict";
+
+  const style = document.createElement("style");
+  style.textContent = `cg-board { border-radius: 20px !important }`;
+  document.head.appendChild(style);
+})();
+#+END_SRC
