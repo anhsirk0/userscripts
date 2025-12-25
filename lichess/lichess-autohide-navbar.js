@@ -38,7 +38,7 @@ header#top.autohide .signup {
     const html = document.querySelector("html");
     const header = document.querySelector("header#top");
     const wrap = document.querySelector("#main-wrap");
-    if (html.scrollTop < 40) {
+    if (html.scrollTop < 20) {
       header.classList.add("autohide");
       wrap.classList.add("autohide");
     } else {
