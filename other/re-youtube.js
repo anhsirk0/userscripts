@@ -132,8 +132,8 @@ display: inline-block;
     }
   }
 
+  addStyles();
   function main() {
-    addStyles();
     getJunkChannelsFromLocalStorage().forEach((it) => JUNK_CHANNELS.push(it));
 
     const shorts = document.querySelector(SHORTS_SEL);
