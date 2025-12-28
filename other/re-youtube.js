@@ -17,9 +17,10 @@
   const REELS_SEL = "ytd-reel-shelf-renderer";
   const TICKET_SEL = "#ticket-shelf";
   const INFO_SEL = ".yt-core-attributed-string";
-  const BADGE_SEL = "yt-badge-shape__text";
+  const BADGE_SEL = "yt-badge-view-model badge-shape .yt-badge-shape__text";
   const KEY = "yt-junk";
 
+  let INTERESTED = [/Protesilaos/, /Esserman/];
   let NOT_INTERESTED = [
     "some keywords",
     "#tagname",
@@ -27,8 +28,6 @@
     /SOME case insensitive regex/i,
   ];
   let JUNK_CHANNELS = [];
-  // TODO: add whitelist for channels
-  // let WHITELISTED_CHANNELS = [];
 
   function addStyles() {
     const style = document.createElement("style");
@@ -96,21 +95,32 @@ display: inline-block;
       .at(0)?.innerText;
     if (!views) return false;
     const [count] = views.split(" ");
-    return !isNaN(Number(count)) && !channel.includes("protesilaos");
+    return !isNaN(Number(count));
+  }
+
+  function isAutoDubbed(el) {
+    const dub = el.querySelector(BADGE_SEL)?.innerText ?? "";
+    return dub === "Auto-dubbed";
+  }
+
+  function isMatch(matcher, ...queries) {
+    if (matcher instanceof RegExp) return queries.some((q) => matcher.test(q));
+    else return queries.some((q) => q.includes(matcher));
   }
 
   function handleOne(el) {
     const title = el.querySelector(TITLE_SEL)?.innerText ?? "";
     const channel = el.querySelector(CHANNEL_SEL)?.innerText ?? "";
+    const matchFn = (i) => isMatch(i, channel, title);
 
-    let junk =
-      NOT_INTERESTED.some((it) => {
-        if (it instanceof RegExp) return it.test(channel) || it.test(title);
-        else return channel.includes(it) || title.includes(it);
-      }) || JUNK_CHANNELS.includes(channel);
+    let junk = NOT_INTERESTED.some(matchFn) || JUNK_CHANNELS.includes(channel);
 
     const isLessThan1k = (kind) => isCountLessThan1k(el, channel, kind);
     if (isLessThan1k("views") || isLessThan1k("watching")) junk = true;
+
+    if (isAutoDubbed(el)) junk = true;
+
+    if (INTERESTED.some(matchFn)) junk = false;
 
     if (junk) remove(el, `${channel}'s video removed: ${title}`);
     else addBlacklistButton(el, channel);
@@ -125,7 +135,7 @@ display: inline-block;
   function main() {
     addStyles();
     getJunkChannelsFromLocalStorage().forEach((it) => JUNK_CHANNELS.push(it));
-    // const base = "https://www.youtube.com/watch?";
+
     const shorts = document.querySelector(SHORTS_SEL);
     if (shorts) remove(shorts, "shorts video removed");
 
